@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MeetFriend</string>
+    <string name="add_place">Add</string>
+    <string name="show_marker_default">Slected Point</string>
+    <string name="error_location_service">Find Wi-Fi connection.\nRestart if you still have troubles.</string>
+    <string name="hint_place_message">Enter the message.</string>
+    <string name="no_message">No messages.</string>
+    <string name="place_data_success">Shared the specified position.</string>
+    <string name="place_data_refresh">Updated all Geo information for everyone.</string>
+    <string name="action_refresh">Update</string>
+    <string name="wait_for_minute">Please hold on...</string>
+</resources>
