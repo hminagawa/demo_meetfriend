@@ -56,7 +56,7 @@ public class PushRegistrationFragment extends Fragment {
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     /** SENDER ID (Project Number) */
-    private String SENDER_ID = "458852476803";
+    private String SENDER_ID = "912379580812";
 
     /** Tag for logs */
     private static final String TAG = "AppiariesReg";
@@ -91,6 +91,7 @@ public class PushRegistrationFragment extends Fragment {
                 registerInBackground();
             } else {
                 Log.i(TAG, "regId is " + mRegId);
+                registerInBackground();
             }
         } else {
             Log.i(TAG, "No valid Google Play Services APK found.");
