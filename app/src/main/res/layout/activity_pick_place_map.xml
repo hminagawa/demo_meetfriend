@@ -29,6 +29,29 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <LinearLayout
+        android:id="@+id/notification_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@android:color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/notification_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:textSize="24sp"/>
+
+        <TextView
+            android:id="@+id/notification_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
     <!-- 地図 -->
     <fragment
         android:id="@+id/map"
@@ -57,5 +80,7 @@
         android:textSize="20sp"
         android:text="@string/add_place"
         android:textColor="#FFFFFF" />
+
+
 
 </LinearLayout>

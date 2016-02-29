@@ -25,10 +25,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appiaries.baas.sdk.AB;
@@ -36,6 +38,7 @@ import com.appiaries.baas.sdk.ABDBObject;
 import com.appiaries.baas.sdk.ABException;
 import com.appiaries.baas.sdk.ABResult;
 import com.appiaries.baas.sdk.ResultCallback;
+import com.appiaries.meetfriend.content.PushBroadcastReceiver;
 import com.appiaries.meetfriend.fragment.PushRegistrationFragment;
 import com.appiaries.meetfriend.util.AddressSearchUtils;
 import com.appiaries.meetfriend.util.Installation;
@@ -99,11 +102,17 @@ public class PickPlaceMapActivity extends AppCompatActivity implements GoogleMap
     // AsyncTask to retrieve the place name.
     private AsyncTask<Void, Void, Address> mMarkerAddressTask;
 
+    /** Notification */
+    private View mNotificationInfoView;
+
     // Message entry field.
     private EditText mMessageText;
 
     // Submit button.
     private View mAddButton;
+
+    /** Tag for logs */
+    private static final String TAG = "AppiariesReg";
 
     /**
      * {@inheritDoc}
@@ -112,6 +121,8 @@ public class PickPlaceMapActivity extends AppCompatActivity implements GoogleMap
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_place_map);
+
+        Log.i(TAG, "PickPlaceMapActivity - onCreate()");
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(new PushRegistrationFragment(), "registration").commit();
@@ -122,6 +133,44 @@ public class PickPlaceMapActivity extends AppCompatActivity implements GoogleMap
         AB.Config.setApplicationID(Config.APP_ID);
         AB.Config.setApplicationToken(Config.APP_TOKEN);
         AB.activate(getApplicationContext());
+
+        // Notification View
+        mNotificationInfoView = findViewById(R.id.notification_info);
+        mNotificationInfoView.setVisibility(View.GONE);
+
+        final Intent intent = getIntent();
+        Log.i(TAG, "intent action: " + intent.getAction());
+
+        // Show notification view upon when notification is tapped.
+        if (intent != null && PushBroadcastReceiver.ACTION_NOTIFICATION_OPEN.equals(intent.getAction())) {
+
+            Log.i(TAG, "Seems like the notification is tapped.");
+
+            mNotificationInfoView.setVisibility(View.VISIBLE);
+            final String title = intent.getStringExtra(Config.NOTIFICATION_KEY_TITLE);
+            final String message = intent.getStringExtra(Config.NOTIFICATION_KEY_MESSAGE);
+            ((TextView) findViewById(R.id.notification_title)).setText(title);
+            ((TextView) findViewById(R.id.notification_message)).setText(message);
+
+            // Hide the notification view after 10 seconds.
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        Log.d(TAG, e.getMessage());
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mNotificationInfoView.setVisibility(View.GONE);
+                        }
+                    });
+                }
+            };
+            thread.start();
+        }
 
         mMessageText = (EditText) findViewById(R.id.place_message);
 

@@ -16,6 +16,12 @@ import com.appiaries.meetfriend.R;
  */
 public class PushBroadcastReceiver extends BroadcastReceiver {
 
+    /** Tag for logs */
+    private static final String TAG = "AppiariesReg";
+
+    /** Action for Opened-Message */
+    public static final String ACTION_NOTIFICATION_OPEN = "appiaries.intent.action.NOTIFICATION_OPEN";
+
     /**
      * {@inheritDoc}
      */
@@ -36,10 +42,18 @@ public class PushBroadcastReceiver extends BroadcastReceiver {
         // Optional settings to let the message disappear when tapping.
         builder.setAutoCancel(true);
 
-        // Intent issued when tapped.
-        Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(intent.getStringExtra("url")));
+        // Open the website specified by "url".
+//        Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(intent.getStringExtra("url")));
+
+        // Create new intent and show TITLE and MESSAGE received.
+        final Intent newIntent = new Intent(context, NotificationHelperActivity.class);
+        newIntent.setAction(ACTION_NOTIFICATION_OPEN);
+        newIntent.putExtras(intent.getExtras());
+
+
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, newIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);
+
         // Sound and vibration.
         builder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
 
