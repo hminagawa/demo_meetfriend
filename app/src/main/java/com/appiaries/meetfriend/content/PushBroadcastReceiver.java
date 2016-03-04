@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
+import com.appiaries.meetfriend.PickPlaceMapActivity;
 import com.appiaries.meetfriend.R;
 
 /**
@@ -46,7 +47,7 @@ public class PushBroadcastReceiver extends BroadcastReceiver {
 //        Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(intent.getStringExtra("url")));
 
         // Create new intent and show TITLE and MESSAGE received.
-        final Intent newIntent = new Intent(context, NotificationHelperActivity.class);
+        final Intent newIntent = new Intent(context, PickPlaceMapActivity.class);
         newIntent.setAction(ACTION_NOTIFICATION_OPEN);
         newIntent.putExtras(intent.getExtras());
 
